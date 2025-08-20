@@ -78,8 +78,8 @@ const VerificationEmail = ({
                 <strong>Security Notice:</strong>
               </Text>
               <Text className="text-[14px] text-gray-600 leading-[20px]">
-                If you didn &apos;t create an account with us, please ignore
-                this email. Your email address will not be added to our system
+                If you didn&apos;t create an account with us, please ignore this
+                email. Your email address will not be added to our system
                 without verification.
               </Text>
             </Section>

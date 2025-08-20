@@ -14,7 +14,14 @@ import {
 export default function SignInModal() {
   const router = useRouter();
   return (
-    <Dialog defaultOpen onOpenChange={() => router.back()}>
+    <Dialog
+      defaultOpen
+      onOpenChange={(open) => {
+        if (!open) {
+          router.back();
+        }
+      }}
+    >
       <DialogContent
         className="sm:max-w-[425px]"
         aria-description="Sign in to your account"

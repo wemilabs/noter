@@ -29,12 +29,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-const formSchema = z.object({
-  email: z.email(),
-  password: z.string().min(8),
-  confirmPassword: z.string().min(8),
-  name: z.string().min(1),
-});
+const formSchema = z
+  .object({
+    email: z.email(),
+    password: z.string().min(8),
+    confirmPassword: z.string().min(8),
+    name: z.string().trim().min(1, "Name is required"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 export function SignUpForm({
   className,
@@ -54,11 +59,6 @@ export function SignUpForm({
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setIsLoading(true);
-
-      if (values.password !== values.confirmPassword) {
-        toast.error("Passwords do not match");
-        return;
-      }
 
       const response = await signUpUser(
         values.email,

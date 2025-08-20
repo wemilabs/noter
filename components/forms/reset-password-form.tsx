@@ -54,6 +54,13 @@ export function ResetPasswordForm({
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (!token) {
+      toast.error(
+        "Reset link is invalid or expired. Please request a new one."
+      );
+      return;
+    }
+
     try {
       setIsLoading(true);
 
