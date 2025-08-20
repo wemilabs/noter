@@ -15,12 +15,24 @@ interface PasswordResetEmailProps {
   userName: string;
   resetUrl: string;
   requestTime: string;
+  supportEmail?: string;
+  companyInfo?: {
+    senderName?: string;
+    companyName?: string;
+    address?: string;
+  };
 }
 
 const PasswordResetEmail = ({
   userName,
   resetUrl,
   requestTime,
+  supportEmail = "support@noter.ai",
+  companyInfo = {
+    senderName: "Mr T.",
+    companyName: "Noter AI",
+    address: "123 Business Street, Suite 100, City, State 12345",
+  },
 }: PasswordResetEmailProps) => {
   return (
     <Html lang="en" dir="ltr">
@@ -100,19 +112,20 @@ const PasswordResetEmail = ({
               </Text>
               <Text className="text-[14px] text-gray-600 leading-[20px] m-0">
                 If you&apos;re having trouble with your password reset, please
-                contact our support team at support@yourcompany.com or visit our
-                help center.
+                contact our support team at {supportEmail} or visit our help
+                center.
               </Text>
             </Section>
 
             {/* Footer */}
             <Section className="border-t border-gray-200 pt-[24px]">
               <Text className="text-[12px] text-gray-500 leading-[16px] m-0 mb-[8px]">
-                This email was sent by <code className="font-bold">Mr T.</code>{" "}
-                from <code className="font-bold">Noter AI, Inc.</code>
+                This email was sent by{" "}
+                <code className="font-bold">{companyInfo.senderName}</code> from{" "}
+                <code className="font-bold">{companyInfo.companyName}</code>
               </Text>
               <Text className="text-[12px] text-gray-500 leading-[16px] m-0 mb-[8px]">
-                123 Business Street, Suite 100, City, State 12345
+                {companyInfo.address}
               </Text>
               <Text className="text-[12px] text-gray-500 leading-[16px] m-0">
                 © {new Date().getFullYear()} Noter AI, Inc. All rights

@@ -10,17 +10,20 @@ export const CallToAction = () => {
           <h2 className="text-balance text-4xl font-semibold lg:text-5xl">
             Start Building
           </h2>
-          <p className="mt-4">Libero sapiente aliquam quibusdam aspernatur.</p>
+          <p className="mt-4">
+            Join thousands of people experimenting intuitive writing with Noter
+            AI.
+          </p>
 
           <div className="mt-12 flex flex-wrap justify-center gap-4">
             <Button asChild size="lg">
-              <Link href="/">
+              <Link href="/dashboard">
                 <span>Get Started</span>
               </Link>
             </Button>
 
             <Button asChild size="lg" variant="outline">
-              <Link href="/">
+              <Link href="/book-demo">
                 <span>Book Demo</span>
               </Link>
             </Button>

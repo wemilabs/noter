@@ -1,6 +1,6 @@
 "use client";
 
-import React, { JSX, useMemo } from "react";
+import React, { useMemo } from "react";
 import { motion, Variants } from "motion/react";
 
 export type PresetType =
@@ -95,9 +95,9 @@ const presetVariants: Record<PresetType, Variants> = {
   },
 };
 
-const addDefaultVariants = (variants: Variants) => ({
-  hidden: { ...defaultItemVariants.hidden, ...variants.hidden },
-  visible: { ...defaultItemVariants.visible, ...variants.visible },
+const addDefaultVariants = (variants?: Variants): Variants => ({
+  hidden: { ...defaultItemVariants.hidden, ...(variants?.hidden ?? {}) },
+  visible: { ...defaultItemVariants.visible, ...(variants?.visible ?? {}) },
 });
 
 function AnimatedGroup({
@@ -116,11 +116,11 @@ function AnimatedGroup({
   const itemVariants = variants?.item || selectedVariants.item;
 
   const MotionComponent = useMemo(
-    () => motion.create(as as keyof JSX.IntrinsicElements),
+    () => motion.create(as as keyof React.JSX.IntrinsicElements),
     [as]
   );
   const MotionChild = useMemo(
-    () => motion.create(asChild as keyof JSX.IntrinsicElements),
+    () => motion.create(asChild as keyof React.JSX.IntrinsicElements),
     [asChild]
   );
 

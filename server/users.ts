@@ -12,9 +12,9 @@ export async function signInUser(email: string, password: string) {
     });
 
     return { success: true, message: "User signed in successfully" };
-  } catch (error) {
-    const e = error as Error;
-    return { success: false, message: e.message || "User sign in failed" };
+  } catch (error: unknown) {
+    console.error("signInUser failed", { error });
+    return { success: false, message: "User sign in failed" };
   }
 }
 
@@ -33,9 +33,8 @@ export async function signUpUser(
     });
 
     return { success: true, message: "User signed up successfully" };
-  } catch (error) {
-    const e = error as Error;
-    console.log(e.message);
-    return { success: false, message: e.message || "User sign up failed" };
+  } catch (error: unknown) {
+    console.error("signUpUser failed", { error });
+    return { success: false, message: "User sign up failed" };
   }
 }
