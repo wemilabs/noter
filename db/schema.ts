@@ -1,6 +1,7 @@
-import { pgTable, text, timestamp, boolean } from "drizzle-orm/pg-core";
+import { relations, sql } from "drizzle-orm";
+import { pgTable, text, timestamp, boolean, jsonb } from "drizzle-orm/pg-core";
 
-const user = pgTable("user", {
+export const user = pgTable("user", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
@@ -16,7 +17,7 @@ const user = pgTable("user", {
     .notNull(),
 });
 
-const session = pgTable("session", {
+export const session = pgTable("session", {
   id: text("id").primaryKey(),
   expiresAt: timestamp("expires_at").notNull(),
   token: text("token").notNull().unique(),
@@ -29,7 +30,7 @@ const session = pgTable("session", {
     .references(() => user.id, { onDelete: "cascade" }),
 });
 
-const account = pgTable("account", {
+export const account = pgTable("account", {
   id: text("id").primaryKey(),
   accountId: text("account_id").notNull(),
   providerId: text("provider_id").notNull(),
@@ -47,7 +48,7 @@ const account = pgTable("account", {
   updatedAt: timestamp("updated_at").notNull(),
 });
 
-const verification = pgTable("verification", {
+export const verification = pgTable("verification", {
   id: text("id").primaryKey(),
   identifier: text("identifier").notNull(),
   value: text("value").notNull(),
@@ -60,9 +61,69 @@ const verification = pgTable("verification", {
   ),
 });
 
+export const notebooks = pgTable("notebooks", {
+  id: text("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  createdAt: timestamp("created_at").$defaultFn(
+    () => /* @__PURE__ */ new Date()
+  ),
+  updatedAt: timestamp("updated_at").$defaultFn(
+    () => /* @__PURE__ */ new Date()
+  ),
+});
+
+export const notebookRelations = relations(notebooks, ({ many, one }) => ({
+  notes: many(notes),
+  user: one(user, {
+    fields: [notebooks.userId],
+    references: [user.id],
+  }),
+}));
+
+export type Notebook = typeof notebooks.$inferSelect & {
+  notes: Note[];
+};
+export type InsertNotebook = typeof notebooks.$inferInsert;
+
+export const notes = pgTable("notes", {
+  id: text("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  content: jsonb("content").notNull(),
+  notebookId: text("notebook_id")
+    .notNull()
+    .references(() => notebooks.id, { onDelete: "cascade" }),
+  createdAt: timestamp("created_at").$defaultFn(
+    () => /* @__PURE__ */ new Date()
+  ),
+  updatedAt: timestamp("updated_at").$defaultFn(
+    () => /* @__PURE__ */ new Date()
+  ),
+});
+
+export const noteRelations = relations(notes, ({ one }) => ({
+  notebook: one(notebooks, {
+    fields: [notes.notebookId],
+    references: [notebooks.id],
+  }),
+}));
+
+export type Note = typeof notes.$inferSelect;
+export type InsertNote = typeof notes.$inferInsert;
+
 export const schema = {
   user,
   session,
   account,
   verification,
+  notebooks,
+  notes,
+  noteRelations,
+  notebookRelations,
 };

@@ -22,11 +22,11 @@ export const CallToAction = () => {
               </Link>
             </Button>
 
-            <Button asChild size="lg" variant="outline">
-              <Link href="/book-demo">
+            {/* <Button asChild size="lg" variant="outline">
+              <Link href={"/book-demo"}>
                 <span>Book Demo</span>
               </Link>
-            </Button>
+            </Button> */}
           </div>
         </div>
       </div>

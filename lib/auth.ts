@@ -17,7 +17,7 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
-    sendResetPassword: async ({ user, url }, request) => {
+    sendResetPassword: async ({ user, url }) => {
       try {
         await resend.emails.send({
           from: "Acme <onboarding@resend.dev>",
@@ -34,12 +34,12 @@ export const auth = betterAuth({
         console.error(e.message);
       }
     },
-    onPasswordReset: async ({ user }, request) => {
+    onPasswordReset: async ({ user }) => {
       console.log(`Password for user ${user.email} has been reset.`);
     },
   },
   emailVerification: {
-    sendVerificationEmail: async ({ user, url }, request) => {
+    sendVerificationEmail: async ({ user, url }) => {
       try {
         await resend.emails.send({
           from: "Acme <onboarding@resend.dev>",
