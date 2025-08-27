@@ -2,27 +2,15 @@ import Link from "next/link";
 
 import { Logo } from "@/components/logo";
 
-const links = [
+const footerLinks = [
   {
     title: "Features",
     href: "#features",
   },
-  {
-    title: "Solution",
-    href: "#solution",
-  },
-  {
-    title: "Customers",
-    href: "#customers",
-  },
-  {
-    title: "Pricing",
-    href: "#pricing",
-  },
-  {
-    title: "Help",
-    href: "#help",
-  },
+  // {
+  //   title: "Pricing",
+  //   href: "/",
+  // },
   {
     title: "About",
     href: "/about",
@@ -38,7 +26,7 @@ export const Footer = () => {
         </Link>
 
         <div className="my-8 flex flex-wrap justify-center gap-6 text-sm">
-          {links.map((link, index) => (
+          {footerLinks.map((link, index) => (
             <Link
               key={index}
               href={link.href}
@@ -49,8 +37,8 @@ export const Footer = () => {
           ))}
         </div>
         <div className="my-8 flex flex-wrap justify-center gap-6 text-sm">
-          <Link
-            href="#"
+          <a
+            href="https://x.com/DorianTho5"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="X/Twitter"
@@ -68,12 +56,12 @@ export const Footer = () => {
                 d="M10.488 14.651L15.25 21h7l-7.858-10.478L20.93 3h-2.65l-5.117 5.886L8.75 3h-7l7.51 10.015L2.32 21h2.65zM16.25 19L5.75 5h2l10.5 14z"
               ></path>
             </svg>
-          </Link>
-          <Link
-            href="#"
+          </a>
+          <a
+            href="https://github.com/wemilabs/noter"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="LinkedIn"
+            aria-label="Github"
             className="text-muted-foreground hover:text-primary block"
           >
             <svg
@@ -81,103 +69,17 @@ export const Footer = () => {
               xmlns="http://www.w3.org/2000/svg"
               width="1em"
               height="1em"
-              viewBox="0 0 24 24"
+              viewBox="0 0 256 250"
             >
               <path
                 fill="currentColor"
-                d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93zM6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37z"
-              ></path>
+                d="M128.001 0C57.317 0 0 57.307 0 128.001c0 56.554 36.676 104.535 87.535 121.46 6.397 1.185 8.746-2.777 8.746-6.158 0-3.052-.12-13.135-.174-23.83-35.61 7.742-43.124-15.103-43.124-15.103-5.823-14.795-14.213-18.73-14.213-18.73-11.613-7.944.876-7.78.876-7.78 12.853.902 19.621 13.19 19.621 13.19 11.417 19.568 29.945 13.911 37.249 10.64 1.149-8.272 4.466-13.92 8.127-17.116-28.431-3.236-58.318-14.212-58.318-63.258 0-13.975 5-25.394 13.188-34.358-1.329-3.224-5.71-16.242 1.24-33.874 0 0 10.749-3.44 35.21 13.121 10.21-2.836 21.16-4.258 32.038-4.307 10.878.049 21.837 1.47 32.066 4.307 24.431-16.56 35.165-13.12 35.165-13.12 6.967 17.63 2.584 30.65 1.255 33.873 8.207 8.964 13.173 20.383 13.173 34.358 0 49.163-29.944 59.988-58.447 63.157 4.591 3.972 8.682 11.762 8.682 23.704 0 17.126-.148 30.91-.148 35.126 0 3.407 2.304 7.398 8.792 6.14C219.37 232.5 256 184.537 256 128.002 256 57.307 198.691 0 128.001 0Zm-80.06 182.34c-.282.636-1.283.827-2.194.39-.929-.417-1.45-1.284-1.15-1.922.276-.655 1.279-.838 2.205-.399.93.418 1.46 1.293 1.139 1.931Zm6.296 5.618c-.61.566-1.804.303-2.614-.591-.837-.892-.994-2.086-.375-2.66.63-.566 1.787-.301 2.626.591.838.903 1 2.088.363 2.66Zm4.32 7.188c-.785.545-2.067.034-2.86-1.104-.784-1.138-.784-2.503.017-3.05.795-.547 2.058-.055 2.861 1.075.782 1.157.782 2.522-.019 3.08Zm7.304 8.325c-.701.774-2.196.566-3.29-.49-1.119-1.032-1.43-2.496-.726-3.27.71-.776 2.213-.558 3.315.49 1.11 1.03 1.45 2.505.701 3.27Zm9.442 2.81c-.31 1.003-1.75 1.459-3.199 1.033-1.448-.439-2.395-1.613-2.103-2.626.301-1.01 1.747-1.484 3.207-1.028 1.446.436 2.396 1.602 2.095 2.622Zm10.744 1.193c.036 1.055-1.193 1.93-2.715 1.95-1.53.034-2.769-.82-2.786-1.86 0-1.065 1.202-1.932 2.733-1.958 1.522-.03 2.768.818 2.768 1.868Zm10.555-.405c.182 1.03-.875 2.088-2.387 2.37-1.485.271-2.861-.365-3.05-1.386-.184-1.056.893-2.114 2.376-2.387 1.514-.263 2.868.356 3.061 1.403Z"
+              />
             </svg>
-          </Link>
-          <Link
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Facebook"
-            className="text-muted-foreground hover:text-primary block"
-          >
-            <svg
-              className="size-6"
-              xmlns="http://www.w3.org/2000/svg"
-              width="1em"
-              height="1em"
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="currentColor"
-                d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95"
-              ></path>
-            </svg>
-          </Link>
-          <Link
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Threads"
-            className="text-muted-foreground hover:text-primary block"
-          >
-            <svg
-              className="size-6"
-              xmlns="http://www.w3.org/2000/svg"
-              width="1em"
-              height="1em"
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.5"
-                d="M19.25 8.505c-1.577-5.867-7-5.5-7-5.5s-7.5-.5-7.5 8.995s7.5 8.996 7.5 8.996s4.458.296 6.5-3.918c.667-1.858.5-5.573-6-5.573c0 0-3 0-3 2.5c0 .976 1 2 2.5 2s3.171-1.027 3.5-3c1-6-4.5-6.5-6-4"
-                color="currentColor"
-              ></path>
-            </svg>
-          </Link>
-          <Link
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Instagram"
-            className="text-muted-foreground hover:text-primary block"
-          >
-            <svg
-              className="size-6"
-              xmlns="http://www.w3.org/2000/svg"
-              width="1em"
-              height="1em"
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="currentColor"
-                d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4zm9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8A1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5a5 5 0 0 1-5 5a5 5 0 0 1-5-5a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3"
-              ></path>
-            </svg>
-          </Link>
-          <Link
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="TikTok"
-            className="text-muted-foreground hover:text-primary block"
-          >
-            <svg
-              className="size-6"
-              xmlns="http://www.w3.org/2000/svg"
-              width="1em"
-              height="1em"
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="currentColor"
-                d="M16.6 5.82s.51.5 0 0A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6c0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64c0 3.33 2.76 5.7 5.69 5.7c3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48"
-              ></path>
-            </svg>
-          </Link>
+          </a>
         </div>
         <span className="text-muted-foreground block text-center text-sm">
-          {" "}
-          © {new Date().getFullYear()} Noter AI, Inc. All rights reserved
+          {new Date().getFullYear()} Noter AI, Inc. All rights reserved
         </span>
       </div>
     </footer>

@@ -11,10 +11,9 @@ import { Logo } from "@/components/logo";
 import { ModeToggle } from "./mode-toggle";
 
 const menuItems = [
-  { name: "Features", href: "#link" },
-  { name: "Solution", href: "#link" },
-  { name: "Pricing", href: "#link" },
-  { name: "About", href: "#link" },
+  { name: "Features", href: "#features" },
+  // { name: "Pricing", href: "#pricing" },
+  { name: "About", href: "/about" },
 ];
 
 export const Header = () => {
