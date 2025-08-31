@@ -1,7 +1,9 @@
 import { getNotebookById } from "@/lib/dal";
-import { CreateNoteButton } from "@/components/dashboard/notes/create-note-button";
-import NoteCard from "@/components/dashboard/notes/note-card";
+
 import { SetBreadcrumbs } from "@/components/dashboard/navigation/set-breadcrumbs";
+import { SearchForm } from "@/components/forms/search-form";
+import { CreateNoteButton } from "@/components/dashboard/notes/create-note-button";
+import { FilteredNotes } from "@/components/dashboard/notes/filtered-notes";
 
 export default async function NotebookPage({
   params,
@@ -19,22 +21,18 @@ export default async function NotebookPage({
           { label: notebook?.name || "Notebook" },
         ]}
       />
-      <h1>{notebook?.name}</h1>
+      <h1 className="text-2xl font-bold tracking-tight mt-4">
+        {notebook?.name}
+      </h1>
 
       <div className="flex items-center justify-between">
-        <div>A search maybe</div>
+        <SearchForm className="w-full max-w-sm" />
         <CreateNoteButton notebookId={notebookId} />
       </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pt-4">
         {success ? (
-          notebook?.notes?.length === 0 ? (
-            <div>No notes found</div>
-          ) : (
-            notebook?.notes
-              ?.reverse()
-              .map((note) => <NoteCard key={note.id} note={note} />)
-          )
+          <FilteredNotes data={notebook?.notes} />
         ) : (
           <div className="text-red-500">{message}</div>
         )}

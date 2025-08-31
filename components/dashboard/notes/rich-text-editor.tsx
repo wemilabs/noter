@@ -7,9 +7,12 @@ import {
   type JSONContent,
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import Document from "@tiptap/extension-document";
-import Paragraph from "@tiptap/extension-paragraph";
-import Text from "@tiptap/extension-text";
+import Underline from "@tiptap/extension-underline";
+import LinkExtension from "@tiptap/extension-link";
+import TextAlign from "@tiptap/extension-text-align";
+import Subscript from "@tiptap/extension-subscript";
+import Superscript from "@tiptap/extension-superscript";
+import Image from "@tiptap/extension-image";
 import {
   Undo,
   Redo,
@@ -17,7 +20,7 @@ import {
   Italic,
   Strikethrough,
   Code,
-  Underline,
+  Underline as UnderlineIcon,
   Link,
   List,
   ListOrdered,
@@ -27,8 +30,8 @@ import {
   AlignJustify,
   ImagePlus,
   ChevronDown,
-  Superscript,
-  Subscript,
+  Superscript as SuperscriptIcon,
+  Subscript as SubscriptIcon,
 } from "lucide-react";
 
 import { updateNote } from "@/server/notes";
@@ -48,11 +51,28 @@ interface RichTextEditorProps {
 
 const RichTextEditor = ({ content, noteId }: RichTextEditorProps) => {
   const editor = useEditor({
-    extensions: [StarterKit, Document, Paragraph, Text],
+    extensions: [
+      StarterKit,
+      Underline,
+      Subscript,
+      Superscript,
+      Image,
+      LinkExtension.configure({
+        openOnClick: false,
+        autolink: true,
+        linkOnPaste: true,
+        HTMLAttributes: {
+          class: "underline text-blue-600 dark:text-blue-400",
+          rel: "noopener noreferrer",
+          target: "_blank",
+        },
+      }),
+      TextAlign.configure({ types: ["heading", "paragraph"] }),
+    ],
     immediatelyRender: false,
     autofocus: true,
     editable: true,
-    injectCSS: false,
+    injectCSS: true,
     onUpdate: ({ editor }) => {
       if (noteId) {
         const content = editor.getJSON();
@@ -142,6 +162,18 @@ const RichTextEditor = ({ content, noteId }: RichTextEditorProps) => {
         canStrike: ctx.editor?.can().chain().focus().toggleStrike().run(),
         isCode: ctx.editor?.isActive("code"),
         canCode: ctx.editor?.can().chain().focus().toggleCode().run(),
+        isUnderline: ctx.editor?.isActive("underline"),
+        canUnderline: ctx.editor?.can().chain().focus().toggleUnderline().run(),
+        isSuperscript: ctx.editor?.isActive("superscript"),
+        canSuperscript: ctx.editor
+          ?.can()
+          .chain()
+          .focus()
+          .toggleSuperscript()
+          .run(),
+        isSubscript: ctx.editor?.isActive("subscript"),
+        canSubscript: ctx.editor?.can().chain().focus().toggleSubscript().run(),
+        isLink: ctx.editor?.isActive("link"),
         isParagraph: ctx.editor?.isActive("paragraph"),
         isHeading1: ctx.editor?.isActive("heading", { level: 1 }),
         isHeading2: ctx.editor?.isActive("heading", { level: 2 }),
@@ -152,6 +184,10 @@ const RichTextEditor = ({ content, noteId }: RichTextEditorProps) => {
         isBlockquote: ctx.editor?.isActive("blockquote"),
         canUndo: ctx.editor?.can().chain().focus().undo().run(),
         canRedo: ctx.editor?.can().chain().focus().redo().run(),
+        alignLeft: ctx.editor?.isActive({ textAlign: "left" }),
+        alignCenter: ctx.editor?.isActive({ textAlign: "center" }),
+        alignRight: ctx.editor?.isActive({ textAlign: "right" }),
+        alignJustify: ctx.editor?.isActive({ textAlign: "justify" }),
       };
     },
   });
@@ -319,9 +355,15 @@ const RichTextEditor = ({ content, noteId }: RichTextEditorProps) => {
         <Button
           variant="ghost"
           size="sm"
-          className="size-8 p-0 text-muted-foreground hover:text-foreground hover:bg-accent"
+          onClick={() => editor?.chain().focus().toggleUnderline().run()}
+          disabled={!editorState?.canUnderline}
+          className={`size-8 p-0 hover:bg-accent ${
+            editorState?.isUnderline
+              ? "bg-accent text-accent-foreground"
+              : "text-muted-foreground hover:text-foreground"
+          }`}
         >
-          <Underline className="size-4" />
+          <UnderlineIcon className="size-4" />
         </Button>
 
         <div className="w-px h-6 bg-border mx-1" />
@@ -330,23 +372,61 @@ const RichTextEditor = ({ content, noteId }: RichTextEditorProps) => {
         <Button
           variant="ghost"
           size="sm"
-          className="size-8 p-0 text-muted-foreground hover:text-foreground hover:bg-accent"
+          onClick={() => {
+            if (!editor) return;
+            if (editor.isActive("link")) {
+              editor.chain().focus().unsetLink().run();
+              return;
+            }
+            const previousUrl = editor.getAttributes("link").href as
+              | string
+              | undefined;
+            const url = window.prompt("Enter URL", previousUrl ?? "https://");
+            if (!url) return;
+            try {
+              const parsed = new URL(url);
+              editor
+                .chain()
+                .focus()
+                .setLink({ href: parsed.toString(), target: "_blank" })
+                .run();
+            } catch {
+              // ignore invalid URL
+            }
+          }}
+          className={`size-8 p-0 hover:bg-accent ${
+            editorState?.isLink
+              ? "bg-accent text-accent-foreground"
+              : "text-muted-foreground hover:text-foreground"
+          }`}
         >
           <Link className="size-4" />
         </Button>
         <Button
           variant="ghost"
           size="sm"
-          className="size-8 p-0 text-muted-foreground hover:text-foreground hover:bg-accent"
+          onClick={() => editor?.chain().focus().toggleSuperscript().run()}
+          disabled={!editorState?.canSuperscript}
+          className={`size-8 p-0 hover:bg-accent ${
+            editorState?.isSuperscript
+              ? "bg-accent text-accent-foreground"
+              : "text-muted-foreground hover:text-foreground"
+          }`}
         >
-          <Superscript className="size-4" />
+          <SuperscriptIcon className="size-4" />
         </Button>
         <Button
           variant="ghost"
           size="sm"
-          className="size-8 p-0 text-muted-foreground hover:text-foreground hover:bg-accent"
+          onClick={() => editor?.chain().focus().toggleSubscript().run()}
+          disabled={!editorState?.canSubscript}
+          className={`size-8 p-0 hover:bg-accent ${
+            editorState?.isSubscript
+              ? "bg-accent text-accent-foreground"
+              : "text-muted-foreground hover:text-foreground"
+          }`}
         >
-          <Subscript className="size-4" />
+          <SubscriptIcon className="size-4" />
         </Button>
 
         <div className="w-px h-6 bg-border mx-1" />
@@ -355,28 +435,48 @@ const RichTextEditor = ({ content, noteId }: RichTextEditorProps) => {
         <Button
           variant="ghost"
           size="sm"
-          className="size-8 p-0 text-muted-foreground hover:text-foreground hover:bg-accent"
+          onClick={() => editor?.chain().focus().setTextAlign("left").run()}
+          className={`size-8 p-0 hover:bg-accent ${
+            editorState?.alignLeft
+              ? "bg-accent text-accent-foreground"
+              : "text-muted-foreground hover:text-foreground"
+          }`}
         >
           <AlignLeft className="size-4" />
         </Button>
         <Button
           variant="ghost"
           size="sm"
-          className="size-8 p-0 text-muted-foreground hover:text-foreground hover:bg-accent"
+          onClick={() => editor?.chain().focus().setTextAlign("center").run()}
+          className={`size-8 p-0 hover:bg-accent ${
+            editorState?.alignCenter
+              ? "bg-accent text-accent-foreground"
+              : "text-muted-foreground hover:text-foreground"
+          }`}
         >
           <AlignCenter className="size-4" />
         </Button>
         <Button
           variant="ghost"
           size="sm"
-          className="size-8 p-0 text-muted-foreground hover:text-foreground hover:bg-accent"
+          onClick={() => editor?.chain().focus().setTextAlign("right").run()}
+          className={`size-8 p-0 hover:bg-accent ${
+            editorState?.alignRight
+              ? "bg-accent text-accent-foreground"
+              : "text-muted-foreground hover:text-foreground"
+          }`}
         >
           <AlignRight className="size-4" />
         </Button>
         <Button
           variant="ghost"
           size="sm"
-          className="size-8 p-0 text-muted-foreground hover:text-foreground hover:bg-accent"
+          onClick={() => editor?.chain().focus().setTextAlign("justify").run()}
+          className={`size-8 p-0 hover:bg-accent ${
+            editorState?.alignJustify
+              ? "bg-accent text-accent-foreground"
+              : "text-muted-foreground hover:text-foreground"
+          }`}
         >
           <AlignJustify className="size-4" />
         </Button>
@@ -389,6 +489,12 @@ const RichTextEditor = ({ content, noteId }: RichTextEditorProps) => {
           variant="ghost"
           size="sm"
           className="h-8 px-2 text-muted-foreground hover:text-foreground hover:bg-accent gap-1"
+          onClick={() => {
+            if (!editor) return;
+            const url = window.prompt("Image URL");
+            if (!url) return;
+            editor.chain().focus().setImage({ src: url }).run();
+          }}
         >
           <ImagePlus className="size-4" />
           Add
@@ -399,7 +505,7 @@ const RichTextEditor = ({ content, noteId }: RichTextEditorProps) => {
       <div className="min-h-96 p-6 bg-card">
         <EditorContent
           editor={editor}
-          className="prose prose-neutral dark:prose-invert max-w-none focus:outline-none [&_.ProseMirror]:focus:outline-none [&_.ProseMirror]:min-h-96 [&_.ProseMirror_h1]:text-3xl [&_.ProseMirror_h1]:font-bold [&_.ProseMirror_h1]:mb-4 [&_.ProseMirror_h2]:text-2xl [&_.ProseMirror_h2]:font-bold [&_.ProseMirror_h2]:mb-3 [&_.ProseMirror_p]:mb-4 [&_.ProseMirror_blockquote]:border-l-4 [&_.ProseMirror_blockquote]:border-border [&_.ProseMirror_blockquote]:pl-4 [&_.ProseMirror_blockquote]:italic [&_.ProseMirror_pre]:bg-muted [&_.ProseMirror_pre]:p-4 [&_.ProseMirror_pre]:rounded [&_.ProseMirror_pre]:overflow-x-auto [&_.ProseMirror_code]:bg-muted [&_.ProseMirror_code]:px-1 [&_.ProseMirror_code]:rounded"
+          className="prose prose-neutral dark:prose-invert max-w-none focus:outline-none [&_.ProseMirror]:focus:outline-none [&_.ProseMirror]:min-h-96 [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:mb-4 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:mb-3 [&_p]:mb-4 [&_blockquote]:border-l-4 [&_blockquote]:border-border [&_blockquote]:pl-4 [&_blockquote]:italic [&_pre]:bg-muted [&_pre]:p-4 [&_pre]:rounded [&_pre]:overflow-x-auto [&_code]:bg-muted [&_code]:px-1 [&_code]:rounded [&_ul]:list-disc [&_ol]:list-decimal [&_li]:ml-6 [&_a]:underline [&_a]:text-blue-600 dark:[&_a]:text-blue-400 [&_a]:hover:text-blue-800 dark:[&_a]:hover:text-blue-300"
         />
       </div>
     </div>
