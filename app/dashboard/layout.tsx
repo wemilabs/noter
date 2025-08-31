@@ -1,3 +1,5 @@
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+
 import { AppSidebar } from "@/components/dashboard/sidebar/app-sidebar";
 import {
   SidebarInset,
@@ -33,7 +35,7 @@ export default function DashboardLayout({
             <ModeToggle />
           </header>
           <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
-            {children}
+            <NuqsAdapter>{children}</NuqsAdapter>
           </main>
         </SidebarInset>
       </SidebarProvider>

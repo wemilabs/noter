@@ -28,6 +28,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { UpdateNoteButton } from "./update-note";
 
 interface NoteCardProps {
   note: Note;
@@ -61,13 +62,15 @@ export default function NoteCard({ note }: NoteCardProps) {
       <CardHeader>
         <CardTitle>{note.title}</CardTitle>
       </CardHeader>
-      <CardContent></CardContent>
+      <CardContent>{/*JSON.stringify(note.content)*/}</CardContent>
       <CardFooter className="flex justify-end gap-2">
         <Link href={`/dashboard/notebooks/${note.notebookId}/notes/${note.id}`}>
           <Button variant="outline">
             <EyeIcon className="size-4" />
           </Button>
         </Link>
+
+        <UpdateNoteButton data={note} />
 
         <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
           <AlertDialogTrigger asChild>

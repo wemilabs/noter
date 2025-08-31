@@ -1,15 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, LucidePencil } from "lucide-react";
 
-import { getSession } from "@/lib/auth-client";
-import { createNotebook } from "@/server/notebooks";
+import { Note } from "@/db/schema";
+import { updateNote } from "@/server/notes";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -31,47 +30,38 @@ import {
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
-  name: z.string().min(2).max(50),
+  title: z.string().min(2).max(50),
 });
 
-export const CreateNotebookButton = () => {
-  const router = useRouter();
-
+export const UpdateNoteButton = ({ data }: { data: Note }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      title: data.title,
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setIsLoading(true);
-      const userId = (await getSession()).data?.user.id;
 
-      if (!userId) {
-        toast.error("You must be logged in to create a notebook");
-        return;
-      }
-
-      const response = await createNotebook({
+      const response = await updateNote(data.id, {
         ...values,
-        userId,
+        title: values.title,
       });
 
       if (response.success) {
         form.reset();
-        toast.success("Notebook created successfully");
-        router.refresh();
+        toast.success("Note updated successfully");
         setIsOpen(false);
       } else {
         toast.error(response.message);
       }
     } catch {
-      toast.error("Failed to create notebook");
+      toast.error("Failed to update note");
     } finally {
       setIsLoading(false);
     }
@@ -80,26 +70,26 @@ export const CreateNotebookButton = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="w-max">Create Notebook</Button>
+        <Button className="w-max">
+          <LucidePencil className="size-4" />
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create Notebook</DialogTitle>
-          <DialogDescription>
-            Create a new notebook to store your notes.
-          </DialogDescription>
+          <DialogTitle>Edit Note</DialogTitle>
+          <DialogDescription>Edit your note.</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
-              name="name"
+              name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Title</FormLabel>
                   <FormControl>
-                    <Input placeholder="My Notebook" {...field} />
+                    <Input placeholder="My Note" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -109,7 +99,7 @@ export const CreateNotebookButton = () => {
               {isLoading ? (
                 <Loader2 className="size-4 animate-spin" />
               ) : (
-                "Create"
+                "Update"
               )}
             </Button>
           </form>

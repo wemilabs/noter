@@ -27,6 +27,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { UpdateNotebookButton } from "./update-notebook";
 
 interface NotebookCardProps {
   notebook: Notebook;
@@ -63,6 +64,8 @@ export default function NotebookCard({ notebook }: NotebookCardProps) {
             <EyeIcon className="size-4" />
           </Button>
         </Link>
+
+        <UpdateNotebookButton data={notebook} />
 
         <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
           <AlertDialogTrigger asChild>

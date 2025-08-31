@@ -29,7 +29,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
-  name: z.string().min(2).max(50),
+  title: z.string().min(2).max(50),
 });
 
 export const CreateNoteButton = ({ notebookId }: { notebookId: string }) => {
@@ -39,7 +39,7 @@ export const CreateNoteButton = ({ notebookId }: { notebookId: string }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      title: "",
     },
   });
 
@@ -48,7 +48,7 @@ export const CreateNoteButton = ({ notebookId }: { notebookId: string }) => {
       setIsLoading(true);
 
       const response = await createNote({
-        title: values.name,
+        title: values.title,
         content: {},
         notebookId,
       });
@@ -84,10 +84,10 @@ export const CreateNoteButton = ({ notebookId }: { notebookId: string }) => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
-              name="name"
+              name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Title</FormLabel>
                   <FormControl>
                     <Input placeholder="My Note" {...field} />
                   </FormControl>
