@@ -29,11 +29,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { UpdateNotebookButton } from "./update-notebook";
 
-interface NotebookCardProps {
-  notebook: Notebook;
-}
-
-export default function NotebookCard({ notebook }: NotebookCardProps) {
+export default function NotebookCard({ notebook }: { notebook: Notebook }) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -56,7 +52,10 @@ export default function NotebookCard({ notebook }: NotebookCardProps) {
         <CardTitle>{notebook.name}</CardTitle>
       </CardHeader>
       <CardContent>
-        <p>{notebook.notes?.length ?? 0} notes</p>
+        <p>
+          {notebook.notes?.length ?? 0} note
+          {notebook.notes?.length <= 1 ? "" : "s"}
+        </p>
       </CardContent>
       <CardFooter className="flex justify-end gap-2">
         <Link href={`/dashboard/notebooks/${notebook.id}`}>
