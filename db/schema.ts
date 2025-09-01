@@ -65,7 +65,7 @@ export const notebooks = pgTable("notebooks", {
   id: text("id")
     .primaryKey()
     .default(sql`gen_random_uuid()`),
-  name: text("name").notNull(),
+  name: text("name").notNull().unique(),
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
@@ -94,7 +94,7 @@ export const notes = pgTable("notes", {
   id: text("id")
     .primaryKey()
     .default(sql`gen_random_uuid()`),
-  title: text("title").notNull(),
+  title: text("title").notNull().unique(),
   content: jsonb("content").notNull(),
   notebookId: text("notebook_id")
     .notNull()

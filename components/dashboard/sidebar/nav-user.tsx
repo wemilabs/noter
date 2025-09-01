@@ -171,7 +171,7 @@ export function NavUser({
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogTitle>Absolutely sure?</AlertDialogTitle>
                   <AlertDialogDescription>
                     This action cannot be undone. It will sign you out of your
                     account.

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { EyeIcon, Loader2, Trash2 } from "lucide-react";
 
@@ -35,8 +34,6 @@ interface NoteCardProps {
 }
 
 export default function NoteCard({ note }: NoteCardProps) {
-  const router = useRouter();
-
   const [isDeleting, setIsDeleting] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -47,7 +44,6 @@ export default function NoteCard({ note }: NoteCardProps) {
 
       if (response.success) {
         toast.success("Note deleted successfully");
-        router.refresh();
       }
     } catch {
       toast.error("Failed to delete note");
@@ -84,15 +80,18 @@ export default function NoteCard({ note }: NoteCardProps) {
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogTitle>Absolutely sure?</AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete the
+                This action cannot be undone. It will permanently delete this
                 note.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleDelete}>
+              <AlertDialogAction
+                className="bg-red-600 hover:bg-red-600/80 dark:text-white"
+                onClick={handleDelete}
+              >
                 Continue
               </AlertDialogAction>
             </AlertDialogFooter>

@@ -126,7 +126,7 @@ export const Hero = () => {
                 <div className="inset-shadow-2xs ring-background dark:inset-shadow-white/20 bg-background relative mx-auto max-w-5xl overflow-hidden rounded-2xl border p-4 shadow-lg shadow-zinc-950/15 ring-1">
                   <Image
                     className="bg-background aspect-15/8 relative hidden rounded-2xl dark:block"
-                    src="https://ubrw5iu3hw.ufs.sh/f/TFsxjrtdWsEIMDdx1ByOKu7I8gzycl5Ws9ViUDwbapXtnYfe"
+                    src="https://ubrw5iu3hw.ufs.sh/f/TFsxjrtdWsEIkIpfUvWv0leWaRgoOG4nyNr1BmJAiTsI8Xh3"
                     alt="noter app screen"
                     width={2700}
                     height={1440}
@@ -134,7 +134,7 @@ export const Hero = () => {
                   />
                   <Image
                     className="z-2 border-border/25 aspect-15/8 relative rounded-2xl border dark:hidden"
-                    src="https://ubrw5iu3hw.ufs.sh/f/TFsxjrtdWsEIXO4T7iDUiynWfM7zBqmkCaYK4ToDj1rx52h6"
+                    src="https://ubrw5iu3hw.ufs.sh/f/TFsxjrtdWsEI3nWQropaVCSwZ0nPbNGrB65U1itTFvEm9yQA"
                     alt="noter app screen"
                     width={2700}
                     height={1440}

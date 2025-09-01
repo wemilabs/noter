@@ -1,4 +1,4 @@
-import { getNotebookById } from "@/lib/dal";
+import { getNotebookByIdWithItsOwnNotes } from "@/lib/dal";
 
 import { SetBreadcrumbs } from "@/components/dashboard/navigation/set-breadcrumbs";
 import { SearchForm } from "@/components/forms/search-form";
@@ -11,7 +11,8 @@ export default async function NotebookPage({
   params: Promise<{ notebookId: string }>;
 }) {
   const { notebookId } = await params;
-  const { success, notebook, message } = await getNotebookById(notebookId);
+  const { success, notebook, message } =
+    await getNotebookByIdWithItsOwnNotes(notebookId);
 
   return (
     <>

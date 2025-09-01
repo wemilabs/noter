@@ -43,22 +43,26 @@ export const getNotebooksForIndividualUser = cache(async () => {
   }
 });
 
-export const getNotebookById = cache(async (notebookId: string) => {
-  const session = await verifySession();
-  if (!session.success) return { success: false, message: session.message };
+export const getNotebookByIdWithItsOwnNotes = cache(
+  async (notebookId: string) => {
+    const session = await verifySession();
+    if (!session.success) return { success: false, message: session.message };
 
-  try {
-    const notebook = await db.query.notebooks.findFirst({
-      where: eq(notebooks.id, notebookId),
-      with: { notes: true },
-    });
+    try {
+      const notebook = await db.query.notebooks.findFirst({
+        where: eq(notebooks.id, notebookId),
+        with: {
+          notes: { orderBy: (notes, { desc }) => [desc(notes.createdAt)] },
+        },
+      });
 
-    return { success: true, notebook };
-  } catch (error: unknown) {
-    const e = error as Error;
-    return { success: false, message: e.message };
+      return { success: true, notebook };
+    } catch (error: unknown) {
+      const e = error as Error;
+      return { success: false, message: e.message };
+    }
   }
-});
+);
 
 // --------------------------------------------------------------------------------------------
 
