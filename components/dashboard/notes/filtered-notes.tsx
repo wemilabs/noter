@@ -1,14 +1,16 @@
 "use client";
 
 import { useQueryState } from "nuqs";
+
 import { Note } from "@/db/schema";
 import NoteCard from "./note-card";
 
 export function FilteredNotes({ data }: { data: Note[] | undefined }) {
   const [search] = useQueryState("search", { defaultValue: "" });
-  const filteredNotes = data?.filter((note) =>
-    note.title.toLowerCase().includes(search.toLowerCase())
-  );
+  const q = search.trim().toLowerCase();
+  const filteredNotes = q
+    ? data?.filter((note) => note.title.toLowerCase().includes(q))
+    : data;
 
   if (!filteredNotes?.length)
     return (
@@ -21,7 +23,7 @@ export function FilteredNotes({ data }: { data: Note[] | undefined }) {
 
   return (
     <>
-      {filteredNotes?.reverse().map((note) => (
+      {filteredNotes?.map((note) => (
         <NoteCard key={note.id} note={note} />
       ))}
     </>
