@@ -114,14 +114,14 @@ importers:
         specifier: ^12.23.12
         version: 12.23.12(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       next:
-        specifier: 15.5.9
-        version: 15.5.9(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.91.0)
+        specifier: 15.5.10
+        version: 15.5.10(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.91.0)
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       nuqs:
         specifier: ^2.5.2
-        version: 2.5.2(next@15.5.9(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.91.0))(react@19.2.3)
+        version: 2.5.2(next@15.5.10(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.91.0))(react@19.2.3)
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
@@ -750,8 +750,8 @@ packages:
     resolution: {integrity: sha512-O6yC5TT0jbw86VZVkmnzCZJB0hfxBl0JJz6f+3KHoZabjb/X08r9eFA+vuY06z1/qaovykvdkrXYq3SPUuvogA==}
     engines: {node: '>=19.0.0'}
 
-  '@next/env@15.5.9':
-    resolution: {integrity: sha512-4GlTZ+EJM7WaW2HEZcyU317tIQDjkQIyENDLxYJfSWlfqguN+dHkZgyQTV/7ykvobU7yEH5gKvreNrH4B6QgIg==}
+  '@next/env@15.5.10':
+    resolution: {integrity: sha512-plg+9A/KoZcTS26fe15LHg+QxReTazrIOoKKUC3Uz4leGGeNPgLHdevVraAAOX0snnUs3WkRx3eUQpj9mreG6A==}
 
   '@next/eslint-plugin-next@15.5.9':
     resolution: {integrity: sha512-kUzXx0iFiXw27cQAViE1yKWnz/nF8JzRmwgMRTMh8qMY90crNsdXJRh2e+R0vBpFR3kk1yvAR7wev7+fCCb79Q==}
@@ -3065,8 +3065,8 @@ packages:
       react: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
       react-dom: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
 
-  next@15.5.9:
-    resolution: {integrity: sha512-agNLK89seZEtC5zUHwtut0+tNrc0Xw4FT/Dg+B/VLEo9pAcS9rtTKpek3V6kVcVwsB2YlqMaHdfZL4eLEVYuCg==}
+  next@15.5.10:
+    resolution: {integrity: sha512-r0X65PNwyDDyOrWNKpQoZvOatw7BcsTPRKdwEqtc9cj3wv7mbBIk9tKed4klRaFXJdX0rugpuMTHslDrAU1bBg==}
     engines: {node: ^18.18.0 || ^19.8.0 || >= 20.0.0}
     hasBin: true
     peerDependencies:
@@ -4131,7 +4131,7 @@ snapshots:
       '@types/node': 22.17.1
       '@types/pg': 8.15.5
 
-  '@next/env@15.5.9': {}
+  '@next/env@15.5.10': {}
 
   '@next/eslint-plugin-next@15.5.9':
     dependencies:
@@ -6517,9 +6517,9 @@ snapshots:
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
 
-  next@15.5.9(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.91.0):
+  next@15.5.10(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.91.0):
     dependencies:
-      '@next/env': 15.5.9
+      '@next/env': 15.5.10
       '@swc/helpers': 0.5.15
       caniuse-lite: 1.0.30001734
       postcss: 8.4.31
@@ -6544,12 +6544,12 @@ snapshots:
   node-addon-api@7.1.1:
     optional: true
 
-  nuqs@2.5.2(next@15.5.9(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.91.0))(react@19.2.3):
+  nuqs@2.5.2(next@15.5.10(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.91.0))(react@19.2.3):
     dependencies:
       '@standard-schema/spec': 1.0.0
       react: 19.2.3
     optionalDependencies:
-      next: 15.5.9(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.91.0)
+      next: 15.5.10(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.91.0)
 
   object-assign@4.1.1: {}
 
